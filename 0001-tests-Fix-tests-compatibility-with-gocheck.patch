@@ -1,12 +1,13 @@
-From c98294bd558a917e56dcd72c7718491bdecfdad6 Mon Sep 17 00:00:00 2001
+From 9ddea07218b91ef6bf9985d788207251a998aeda Mon Sep 17 00:00:00 2001
 From: Lukas Zaoral <lzaoral@redhat.com>
 Date: Wed, 1 Jul 2020 16:11:40 +0200
-Subject: [PATCH 1/1] tests: Fix tests compatibility with %gocheck
+Subject: [PATCH] tests: Fix tests compatibility with %gocheck
 
 ---
  tests/entry_test.go       |  7 +++----
  tests/env_and_arg_test.go | 21 ++++++++++-----------
- 2 files changed, 13 insertions(+), 15 deletions(-)
+ tests/parsing_test.go     | 11 +++++------
+ 3 files changed, 18 insertions(+), 21 deletions(-)
 
 diff --git a/tests/entry_test.go b/tests/entry_test.go
 index 89cd4bb..68e0531 100644
@@ -113,6 +114,41 @@ index 2a34d38..de2040e 100644
  
  	checkExecutables(t, ea,
  		"llvm-link-665",
+diff --git a/tests/parsing_test.go b/tests/parsing_test.go
+index a25f3ee..f8f5046 100644
+--- a/tests/parsing_test.go
++++ b/tests/parsing_test.go
+@@ -1,7 +1,6 @@
+-package test
++package shared
+ 
+ import (
+-	"github.com/SRI-CSL/gllvm/shared"
+ 	"strings"
+ 	"testing"
+ )
+@@ -17,8 +16,8 @@ const input3 = `1.c 2.c 3.c 4.c 5.c -Wl,--start-group 7.o 8.o 9.o -Wl,--end-grou
+ 
+ func plto(input string, t *testing.T) {
+ 	cmds := strings.Fields(input)
+-	parsed := shared.Parse(cmds)
+-	shared.LogInfo("\n<parsed>%v</parsed>", &parsed)
++	parsed := Parse(cmds)
++	LogInfo("\n<parsed>%v</parsed>", &parsed)
+ 	if !parsed.IsLTO {
+ 		t.Errorf("Parsing of  %v FAILED %v (not LTO)\n", input, parsed)
+ 	}
+@@ -26,8 +25,8 @@ func plto(input string, t *testing.T) {
+ 
+ func pl(input string, t *testing.T, expected int) {
+ 	cmds := strings.Fields(input)
+-	parsed := shared.Parse(cmds)
+-	shared.LogInfo("\n<parsed>%v</parsed>", &parsed)
++	parsed := Parse(cmds)
++	LogInfo("\n<parsed>%v</parsed>", &parsed)
+ 	if expected != len(parsed.LinkArgs) {
+ 		t.Errorf("Linking args %v of length %v NOT the expected length %v\n", parsed.LinkArgs, len(parsed.LinkArgs), expected)
+ 	}
 -- 
-2.26.2
+2.28.0
 

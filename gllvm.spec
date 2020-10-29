@@ -1,6 +1,6 @@
 # https://github.com/SRI-CSL/gllvm/
 %global goipath         github.com/SRI-CSL/gllvm
-Version:                1.2.7
+Version:                1.2.8
 
 %gometa
 
@@ -47,7 +47,7 @@ mv tests/* shared
 
 %build
 for cmd in cmd/* ; do
-  %gobuild -o %{gobuilddir}/bin/$(basename $cmd) %{goipath}/$cmd
+  %gobuild -o %{gobuilddir}/bin/$(basename "$cmd") "%{goipath}/$cmd"
 done
 
 %install
@@ -66,5 +66,8 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Oct 29 2020 Lukas Zaoral <lzaoral@redhat.com> - 1.2.8-1
+- New upstream release
+
 * Wed Aug 19 2020 Lukas Zaoral <lzaoral@redhat.com> - 1.2.7-1
 - First release of gllvm package

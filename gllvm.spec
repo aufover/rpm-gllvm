@@ -1,6 +1,6 @@
 # https://github.com/SRI-CSL/gllvm/
 %global goipath         github.com/SRI-CSL/gllvm
-Version:                1.2.9
+Version:                1.3.0
 
 %gometa
 
@@ -25,9 +25,6 @@ Source0:        %{gosource}
 
 Patch0:         0001-tests-Fix-tests-compatibility-with-gocheck.patch
 
-# Not yet upstreamed
-Patch1:         0001-shared-filetypes.go-Fix-redundant-or-warning.patch
-
 BuildRequires: go-rpm-macros
 
 # Needed fot tests
@@ -44,9 +41,6 @@ Requires: llvm
 
 %prep
 %goprep
-
-# Fix compilation of tests
-%patch1 -p1
 
 # Fix gocheck macro
 %patch0 -p1
@@ -73,6 +67,9 @@ install -m 0755 -vp %{gobuilddir}/bin/* %{buildroot}%{_bindir}/
 %gopkgfiles
 
 %changelog
+* Thu Feb 25 2021 Lukas Zaoral <lzaoral@redhat.com> - 1.3.0-1
+- New upstream release
+
 * Thu Dec 10 2020 Lukas Zaoral <lzaoral@redhat.com> - 1.2.9-1
 - New upstream release
 

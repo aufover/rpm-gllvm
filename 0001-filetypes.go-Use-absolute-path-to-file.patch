@@ -1,0 +1,26 @@
+From 7c1719acfdad699958815dda8a4145d3f676ecdc Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Luk=C3=A1=C5=A1=20Zaoral?= <lzaoral@redhat.com>
+Date: Tue, 5 Apr 2022 10:38:38 +0200
+Subject: [PATCH] filetypes.go: Use absolute path to `file`
+
+... so that the verification of `file` utility does not cause a fork bomb.
+---
+ shared/filetypes.go | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/shared/filetypes.go b/shared/filetypes.go
+index ef9167e..dc471cf 100644
+--- a/shared/filetypes.go
++++ b/shared/filetypes.go
+@@ -237,7 +237,7 @@ const (
+ func getFileType(realPath string) (fileType int, err error) {
+ 	// We need the file command to guess the file type
+ 	fileType = fileTypeERROR
+-	cmd := exec.Command("file", realPath)
++	cmd := exec.Command("/usr/bin/file", realPath)
+ 	out, err := cmd.Output()
+ 	if err != nil {
+ 		LogError("There was an error getting the type of %s. Make sure that the 'file' command is installed.", realPath)
+-- 
+2.35.1
+
